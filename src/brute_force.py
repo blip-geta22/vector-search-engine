@@ -1,13 +1,4 @@
-"""Brute force search: compare a query to every document.
-
-This is the simple, correct way to search. It is slow when the
-corpus is large, because it checks all 1,000 papers for every
-query, but it is the ground truth: every faster index we build
-later (HNSW in Step 2) is measured against this one.
-
-Vectors are normalised to length 1, so cosine similarity is
-just the dot product of the query vector and each document row.
-"""
+"""Brute force search. Checks every doc, slow but always correct."""
 
 import numpy as np
 
