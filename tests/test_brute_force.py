@@ -22,6 +22,19 @@ class TestEmbeddings(unittest.TestCase):
         lengths = np.linalg.norm(matrix, axis=1)
         np.testing.assert_allclose(lengths, [1.0, 1.0], atol=1e-5)
 
+    def test_search_clamps_k_to_doc_count(self):
+        docs = [
+            {"title": "cats", "summary": "cats sleep all day"},
+            {"title": "dogs", "summary": "dogs run in parks"},
+        ]
+        vocab, idf = build_vocab(docs, max_terms=100, min_docs=1)
+        matrix = vectorize(
+            [d["title"] + " " + d["summary"] for d in docs], vocab, idf
+        )
+        query = vectorize(["cats sleep"], vocab, idf)[0]
+        results = search(query, matrix, docs, k=10)
+        self.assertEqual(len(results), 2)
+
     def test_search_returns_k_in_order(self):
         docs = [
             {"title": "cats", "summary": "cats sleep all day"},
