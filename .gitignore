@@ -1,0 +1,5 @@
+data/vectors.npy
+data/idf.npy
+data/vocab.json
+__pycache__/
+*.pyc
