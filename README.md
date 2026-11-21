@@ -31,7 +31,7 @@ The first search builds the index and saves it to `data/`. Later searches just l
 ## Measured, 20 Nov 2026
 
 - Corpus: 1,000 docs, vocabulary 5,000 terms, matrix shape (1000, 5000)
-- Tests: 3 passed
+- Tests: 4 passed
 - Brute force search: about 5.6 ms per query
 - Sample top result, "robot swarm control": "MAWAM: A Multi-Agent World-Action Model for Coordinated Manipulation", score 0.267
 
@@ -42,5 +42,5 @@ No HNSW numbers yet. Those come with the benchmark.
 - `src/embeddings.py` — tokenize, TF-IDF, build and save the index
 - `src/brute_force.py` — search over every document
 - `src/search.py` — command line search, top 10 with scores
-- `tests/test_brute_force.py` — 3 tests
+- `tests/test_brute_force.py` — 4 tests
 - `data/arxiv_1000.jsonl` — the corpus (1.6 MB)
