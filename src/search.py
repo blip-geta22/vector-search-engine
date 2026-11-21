@@ -43,7 +43,7 @@ def main():
     print(f"Brute force over {len(docs)} docs: {elapsed_ms:.2f} ms\n")
     for rank, (score, doc) in enumerate(results, 1):
         print(f"{rank}. [{score:.3f}] {doc['title']}")
-        print(f"   {doc['id']}  ({doc['published']})")
+        print(f"   {doc['id']}  ({doc.get('published', '')})")
 
 
 if __name__ == "__main__":
