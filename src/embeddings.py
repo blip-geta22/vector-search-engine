@@ -1,15 +1,4 @@
-"""Turn paper abstracts into vectors, with TF-IDF.
-
-Why TF-IDF here, not a neural embedding model: Step 1 is about
-getting a working search and a ground-truth baseline. TF-IDF needs
-only NumPy, runs in seconds, and every number in it can be explained:
-a word counts more if it is common in this paper and rare across
-all papers. A neural embedding model can replace this file later,
-and brute force plus HNSW will not need to change.
-
-A document vector is one row of a matrix. Each row is normalised
-to length 1, so cosine similarity is just a dot product.
-"""
+"""Turn abstracts into TF-IDF vectors."""
 
 import json
 import math
@@ -18,8 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-# Small, plain list. These words appear in almost every abstract,
-# so they carry no meaning for search.
+# Words in almost every abstract, so they carry no meaning here.
 STOPWORDS = {
     "a", "an", "the", "and", "or", "of", "to", "in", "on", "for",
     "with", "by", "we", "this", "that", "it", "is", "are", "as",
@@ -47,12 +35,7 @@ def load_docs(path):
 
 
 def build_vocab(docs, max_terms=5000, min_docs=2):
-    """Pick the vocabulary: words in at least min_docs papers.
-
-    Returns (vocab, idf) where vocab maps word -> column number
-    and idf is the weight for each column. Rare words get a
-    higher idf, because they say more about a paper.
-    """
+    """Pick the vocabulary: words in at least min_docs papers."""
     doc_counts = {}
     for doc in docs:
         for word in set(tokenize(doc["title"] + " " + doc["summary"])):

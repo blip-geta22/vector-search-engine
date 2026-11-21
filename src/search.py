@@ -1,13 +1,4 @@
-"""Command line search for Step 1.
-
-Usage:
-    python -m src.search "robot swarm control"
-    python -m src.search "transformer language models" --k 5
-
-Run from the repo root. The first run builds the index from
-data/arxiv_1000.jsonl and saves it to data/vectors.npy;
-later runs just load it.
-"""
+"""Command line search. Run: python -m src.search "robot swarm control" """
 
 import argparse
 import json

@@ -1,8 +1,4 @@
-"""Tests for Step 1: embeddings and brute force search.
-
-Run:  python -m unittest discover -s tests -v
-No extra packages needed, only the standard library and NumPy.
-"""
+"""Tests for Step 1."""
 
 import unittest
 
