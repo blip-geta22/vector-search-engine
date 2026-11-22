@@ -22,6 +22,11 @@ class TestEmbeddings(unittest.TestCase):
         lengths = np.linalg.norm(matrix, axis=1)
         np.testing.assert_allclose(lengths, [1.0, 1.0], atol=1e-5)
 
+    def test_search_empty_docs_returns_empty(self):
+        matrix = np.zeros((0, 3))
+        query = np.array([1.0, 0.0, 0.0])
+        self.assertEqual(search(query, matrix, [], k=10), [])
+
     def test_search_clamps_k_to_doc_count(self):
         docs = [
             {"title": "cats", "summary": "cats sleep all day"},
