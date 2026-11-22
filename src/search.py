@@ -9,6 +9,7 @@ import numpy as np
 
 from src.brute_force import search
 from src.embeddings import build_index, load_docs, vectorize
+from src.hnsw import HNSW
 
 HERE = Path(__file__).resolve().parent.parent
 
@@ -30,6 +31,9 @@ def main():
     parser = argparse.ArgumentParser(description="Search 1,000 arXiv abstracts")
     parser.add_argument("query", help="search query, in quotes")
     parser.add_argument("--k", type=int, default=10, help="results to show")
+    parser.add_argument("--method", choices=["brute", "hnsw"], default="brute",
+                        help="brute force (exact) or HNSW (approximate)")
+    parser.add_argument("--ef", type=int, default=50, help="HNSW beam width")
     args = parser.parse_args()
 
     docs, matrix, vocab, idf = load_or_build()
@@ -39,11 +43,20 @@ def main():
         return
 
     start = time.perf_counter()
-    results = search(query_vector, matrix, docs, k=args.k)
+    if args.method == "hnsw":
+        print("Building HNSW index, this takes about a minute ...")
+        index = HNSW(dim=matrix.shape[1], M=16, ef_construction=100, seed=42)
+        index.add_batch(matrix)
+        ids, scores = index.search(query_vector, k=args.k, ef=args.ef)
+        results = [(float(s), docs[i]) for s, i in zip(scores, ids)]
+        label = f"HNSW (ef={args.ef})"
+    else:
+        results = search(query_vector, matrix, docs, k=args.k)
+        label = "Brute force"
     elapsed_ms = (time.perf_counter() - start) * 1000
 
     print(f"\nQuery: {args.query}")
-    print(f"Brute force over {len(docs)} docs: {elapsed_ms:.2f} ms\n")
+    print(f"{label} over {len(docs)} docs: {elapsed_ms:.2f} ms\n")
     for rank, (score, doc) in enumerate(results, 1):
         print(f"{rank}. [{score:.3f}] {doc['title']}")
         print(f"   {doc['id']}  ({doc.get('published', '')})")
