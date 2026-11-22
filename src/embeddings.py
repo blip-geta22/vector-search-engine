@@ -38,7 +38,8 @@ def build_vocab(docs, max_terms=5000, min_docs=2):
     """Pick the vocabulary: words in at least min_docs papers."""
     doc_counts = {}
     for doc in docs:
-        for word in set(tokenize(doc["title"] + " " + doc["summary"])):
+        text = doc.get("title", "") + " " + doc.get("summary", "")
+        for word in set(tokenize(text)):
             doc_counts[word] = doc_counts.get(word, 0) + 1
 
     words = [w for w, c in doc_counts.items() if c >= min_docs]
@@ -76,7 +77,7 @@ def vectorize(texts, vocab, idf):
 def build_index(data_path, out_dir):
     """Build the Step 1 index from a .jsonl corpus and save it to disk."""
     docs = load_docs(data_path)
-    texts = [d["title"] + " " + d["summary"] for d in docs]
+    texts = [d.get("title", "") + " " + d.get("summary", "") for d in docs]
     vocab, idf = build_vocab(docs)
     matrix = vectorize(texts, vocab, idf)
 
