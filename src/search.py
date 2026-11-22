@@ -34,6 +34,9 @@ def main():
 
     docs, matrix, vocab, idf = load_or_build()
     query_vector = vectorize([args.query], vocab, idf)[0]
+    if not np.any(query_vector):
+        print("No words from your query are in the index, so nothing matches.")
+        return
 
     start = time.perf_counter()
     results = search(query_vector, matrix, docs, k=args.k)
