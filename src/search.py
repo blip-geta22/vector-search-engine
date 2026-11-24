@@ -61,9 +61,14 @@ def main():
         print("No words from your query are in the index, so nothing matches.")
         return
 
-    start = time.perf_counter()
+    # Build or load the index first: that time is printed above, not
+    # counted in the search time below.
+    index = None
     if args.method == "hnsw":
         index = load_or_build_hnsw(matrix, rebuild=args.rebuild)
+
+    start = time.perf_counter()
+    if args.method == "hnsw":
         ids, scores = index.search(query_vector, k=args.k, ef=args.ef)
         results = [(float(s), docs[i]) for s, i in zip(scores, ids)]
         label = f"HNSW (ef={args.ef})"
