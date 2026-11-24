@@ -3,3 +3,4 @@ data/idf.npy
 data/vocab.json
 __pycache__/
 *.pyc
+data/hnsw.npz
