@@ -1,0 +1,68 @@
+{
+  "hardware": "AMD EPYC 9D25, 4 vCPUs in a shared Linux sandbox",
+  "corpus": "159,749 arXiv abstracts, TF-IDF 5,000 dims, seed 42",
+  "sizes_run": [
+    1000,
+    10000
+  ],
+  "sizes_not_run": [
+    40000
+  ],
+  "not_run_reason": "40,000-doc HNSW build would take well over 15 minutes here",
+  "rows": [
+    {
+      "docs": 1000,
+      "queries": 200,
+      "brute_ms": 6.039039565000053,
+      "build_s": 53.728606737000064,
+      "size_mb": 20.128972,
+      "sweep": [
+        {
+          "ef": 10,
+          "recall": 0.8640000000000001,
+          "ms": 2.17208651500016,
+          "speedup": 2.780294211715415
+        },
+        {
+          "ef": 50,
+          "recall": 0.9904999999999999,
+          "ms": 5.343105069999865,
+          "speedup": 1.1302490753752303
+        },
+        {
+          "ef": 100,
+          "recall": 0.9990000000000001,
+          "ms": 7.3725510700001,
+          "speedup": 0.8191248195721175
+        }
+      ]
+    },
+    {
+      "docs": 10000,
+      "queries": 200,
+      "brute_ms": 54.12310504000005,
+      "build_s": 667.002709173,
+      "size_mb": 201.240296,
+      "sweep": [
+        {
+          "ef": 10,
+          "recall": 0.8105,
+          "ms": 3.7988286649999736,
+          "speedup": 14.247314057266236
+        },
+        {
+          "ef": 50,
+          "recall": 0.9585000000000001,
+          "ms": 9.244696424999574,
+          "speedup": 5.854503225615928
+        },
+        {
+          "ef": 100,
+          "recall": 0.985,
+          "ms": 14.920562029999473,
+          "speedup": 3.627417313850473
+        }
+      ]
+    }
+  ]
+}
