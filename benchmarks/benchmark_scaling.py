@@ -4,7 +4,7 @@ Uses the TF-IDF vectors from src/embeddings.py, 5,000 dims, not SVD.
 Corpus: data/corpus.csv, 159,749 real arXiv abstracts, downloaded from
 the cleaned Kaggle arXiv copy at
 https://raw.githubusercontent.com/safakkbilici/Academic-Paper-Title-Recommendation/main/data/df_to_model.tar.gz
-(see the download script in the Claude full build). The corpus file is
+(see data/download_corpus.py in this repo). The corpus file is
 gitignored, it stays local.
 
 Method: seeded shuffle, seed 42. The first 10,000 docs are indexed,
@@ -13,10 +13,11 @@ itself. The 1,000-doc run uses the first 1,000 of the same 10,000 and
 the same 200 queries, so the two sizes are comparable. The vocabulary
 is fitted once, on the 10,000 indexed docs.
 
-40,000 docs was not run: the 1,000-doc HNSW build already takes about
-50 s here, so a 40,000-doc build would take well over 15 minutes in
-this sandbox. That is a measured limit, not a guess, see the build
-times below.
+40,000 docs was not run: the 10,000-doc HNSW build already takes 667 s
+here, so a 40,000-doc build would take well over 15 minutes in
+this sandbox. That is an extrapolation from the measured 10,000-doc
+build time on this hardware, and a faster machine builds it much
+faster, so 40,000 is a hardware limit here, not a fixed one.
 
 Run: python -m benchmarks.benchmark_scaling
 This takes several minutes, most of it building the 10,000-doc index.
