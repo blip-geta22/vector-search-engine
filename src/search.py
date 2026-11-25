@@ -35,7 +35,7 @@ def load_or_build_hnsw(matrix, rebuild=False):
         index = HNSW.load(HNSW_PATH)
         print(f"Loaded saved HNSW index in {(time.perf_counter() - start) * 1000:.0f} ms.")
         return index
-    print("Building HNSW index, this takes about a minute ...")
+    print("Building HNSW index, this can take a while on first run ...")
     start = time.perf_counter()
     index = HNSW(dim=matrix.shape[1], M=16, ef_construction=100, seed=42)
     index.add_batch(matrix)
