@@ -49,7 +49,7 @@ Run `python -m benchmarks.benchmark_scaling` to repeat it. Corpus: 159,749 real 
 - 1,000 docs (n=200): brute force 6.04 ms per query, HNSW build 53.7 s, saved index 20.1 MB. ef=10: recall@10 0.864, 2.17 ms, 2.78x faster. ef=50: recall@10 0.990, 5.34 ms, 1.13x faster. ef=100: recall@10 0.999, 7.37 ms, 0.82x, slower.
 - 10,000 docs (n=200): brute force 54.12 ms per query, HNSW build 667.0 s, saved index 201.2 MB. ef=10: recall@10 0.810, 3.80 ms, 14.25x faster. ef=50: recall@10 0.959, 9.24 ms, 5.85x faster. ef=100: recall@10 0.985, 14.92 ms, 3.63x faster.
 
-At 10,000 docs the win is real: brute force grows with the corpus, HNSW barely does, so ef=10 is about 14x faster at recall 0.81. The cost is the build, 667 seconds for 10,000 docs. 40,000 docs was not run: at that build rate it would take well over 15 minutes here, so the scaling run stops at 10,000.
+At 10,000 docs the win is real: brute force grows with the corpus, HNSW grows much more slowly, so ef=10 is about 14x faster at recall 0.81. The cost is the build, 667 seconds for 10,000 docs. 40,000 docs was not run here: on this hardware the build would take well over 15 minutes, so that is a hardware limit on this machine, not a fixed limit, and a faster machine builds it much faster.
 
 ## Files
 
@@ -63,3 +63,4 @@ At 10,000 docs the win is real: brute force grows with the corpus, HNSW barely d
 - `tests/test_brute_force.py`: 6 tests
 - `tests/test_hnsw.py`: 6 tests, including recall against brute force
 - `data/arxiv_1000.jsonl`: the corpus (1.6 MB)
+- `data/download_corpus.py`: download the 159,749-doc scaling corpus, writes data/corpus.csv (gitignored)
